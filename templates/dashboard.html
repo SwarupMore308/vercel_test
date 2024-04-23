@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <!-- Custom CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboardstyle.css') }}"
+    />
+    <style>
+      /* dashboardstyle.css */
+
+      /* Styling for the greeting */
+      .greeting {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        margin-bottom: 15px;
+      }
+
+      .greeting span {
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .username {
+        margin-left: 10px;
+        color: #007bff; /* Blue color for the username */
+      }
+
+      /* Custom styling for cards */
+      .card {
+        border: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 10px;
+      }
+
+      .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Custom animation for cards */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .card-animation {
+        animation: fadeInUp 0.5s ease;
+      }
+
+      /* Modern styling for cards */
+      .card {
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .card-img-top {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .card-body {
+        padding: 20px;
+      }
+
+      .card-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .card-text {
+        font-size: 16px;
+        color: #555;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="nav-bar-div">
+          <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+              <ul class="nav flex-column">
+                <!-- Display Hello, <username> if username is available in session -->
+                {% if 'email' in session %}
+                <li class="nav-item">
+                  <span class="nav-link">
+                    <div class="greeting">
+                      <span>Hello,</span>
+                      <span class="username">{{ username }}</span>
+                    </div>
+                  </span>
+                </li>
+                {% endif %}
+
+                <!-- Rest of the sidebar menu -->
+                <li class="nav-item">
+                  <a class="nav-link active" href="#"> Home </a>
+                </li>
+                <!-- Rest of the sidebar menu -->
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('audiobook') }}">
+                    Upload Book
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('recommendation') }}">
+                    Book Recommendations
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('history') }}">
+                    History
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('logout') }}">
+                    Logout
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+
+        <!-- Main Content -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h1 class="h2">DASHBOARD</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <!--                            <button class="btn btn-sm btn-outline-secondary">Share</button>-->
+                <!--                            <button class="btn btn-sm btn-outline-secondary">Export</button>-->
+              </div>
+            </div>
+          </div>
+
+          <!-- Content Here -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card card-animation">
+                <a href="{{ url_for('audiobook') }}">
+                  <img
+                    src="{{ url_for('static', filename='images/audiobook.png') }}"
+                    class="card-img-top"
+                    alt="PDF Reader Image"
+                    style="width: 200px; height: 200px"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title">PDF Reader</h5>
+                    <p class="card-text">Click here to use the PDF Reader.</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card card-animation">
+                <a href="{{ url_for('recommendation') }}">
+                  <img
+                    src="{{ url_for('static', filename='images/recommendaiton.png') }}"
+                    class="card-img-top"
+                    alt="Book Recommendation Image"
+                    style="width: 200px; height: 200px"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title">Book Recommendation</h5>
+                    <p class="card-text">
+                      Click here to view book recommendations.
+                    </p>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card card-animation">
+                <a href="{{ url_for('history') }}">
+                  <img
+                    src="{{ url_for('static', filename='images/history.png') }}"
+                    class="card-img-top"
+                    alt="History Image"
+                    style="width: 200px; height: 200px"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title">History</h5>
+                    <p class="card-text">Click here to view your history.</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card card-animation">
+                <a href="{{ url_for('logout') }}">
+                  <img
+                    src="{{ url_for('static', filename='images/logout.png') }}"
+                    class="card-img-top"
+                    alt="Logout Image"
+                    style="width: 200px; height: 200px"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title">Logout</h5>
+                    <p class="card-text">Click here to logout.</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

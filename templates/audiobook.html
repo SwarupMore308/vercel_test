@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/audiobookstyle.css') }}"
+    />
+    <!-- Custom CSS -->
+    <style>
+      /* Body styles */
+
+      /* Container styles */
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      /* Header styles */
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+
+      /* Form styles */
+      form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input[type="file"],
+      input[type="number"],
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+
+      input[type="submit"] {
+        width: auto;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+
+      /* Additional fields */
+      #page_range_fields,
+      #keyword_specific_fields {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <!-- Display Hello, <username> if username is available in session -->
+              {% if 'email' in session %}
+              <li class="nav-item">
+                <span class="nav-link">
+                  <div class="greeting">
+                    <span>Hello,</span>
+                    <span class="username">{{ username }}</span>
+                  </div>
+                </span>
+              </li>
+              {% endif %}
+
+              <!-- Rest of the sidebar menu -->
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('dashboard') }}"> Home </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('audiobook') }}">
+                  Upload Book
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('recommendation') }}">
+                  Book Recommendations
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('history') }}">
+                  History
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}"> Logout </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h1 class="h2">CONVERT TO AUDIO</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <!--                            <button class="btn btn-sm btn-outline-secondary">Share</button>-->
+                <!--                            <button class="btn btn-sm btn-outline-secondary">Export</button>-->
+                <div class="remaining-tries">
+                    Remaining Tries: <span id="remainingTries">{{ remainingTries }}</span> / 10
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Include the form here -->
+          <h2>PDF TO AUDIOBOOK</h2>
+          <form
+            action="{{ url_for('convert_to_audio') }}"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <label for="file">Select PDF file:</label><br />
+            <input
+              type="file"
+              name="uploaded_file"
+              accept=".pdf, .docx"
+              required
+            /><br />
+
+            <label for="voice">Select Voice Option:</label>
+            <select id="voice" name="voice">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+            <br />
+
+            <label for="language">Select Language:</label>
+            <select id="language" name="language">
+              <option value="English" data-short="EN">English</option>
+              <option value="Portuguese" data-short="PT">Portuguese</option>
+              <option value="Spanish" data-short="ES">Spanish</option>
+              <option value="French" data-short="FR">French</option>
+              <option value="German" data-short="DE">German</option>
+              <option value="Hindi" data-short="HI">Hindi</option>
+              <option value="Marathi" data-short="MR">Marathi</option>
+              <option value="Telugu" data-short="TE">Telugu</option>
+              <option value="Tamil" data-short="TA">Tamil</option>
+              <option value="Malayalam" data-short="ML">Malayalam</option>
+              <option value="Gujarati" data-short="GU">Gujarati</option>
+              <option value="Kannada" data-short="KN">Kannada</option>
+              <option value="Bengali" data-short="BN">Bengali</option>
+            </select>
+
+            <label for="speed">Select speed:</label>
+            <input
+              type="range"
+              id="speed"
+              name="speed"
+              min="50"
+              max="200"
+              value="100"
+              step="10"
+            />
+            <span id="speedValue">100</span>
+            <!-- Display speed value -->
+            <br />
+
+            <script>
+              // JavaScript to update the displayed speed value
+              const speedInput = document.getElementById("speed");
+              const speedValue = document.getElementById("speedValue");
+
+              speedInput.addEventListener("input", function () {
+                speedValue.textContent = speedInput.value;
+              });
+              document.getElementById("fileInput").addEventListener("change", function() {
+                  alert("File selected for upload!");
+              });
+            </script>
+
+            <input type="submit" value="Convert to Audio" />
+            {% if remainingTries == 0 %}
+                <div class="conversion-limit-message">
+                    Conversion Limit Reached. Can not convert more than 10 files.
+                </div>
+            {% endif %}
+          </form>
+        </main>
+      </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var remainingTries = {{ remainingTries }};
+            var submitButton = document.querySelector('input[type="submit"]');
+            var conversionLimitMessage = document.querySelector('.conversion-limit-message');
+
+            if (remainingTries == 0) {
+                submitButton.disabled = true;
+                conversionLimitMessage.style.display = 'block';
+            }
+        });
+    </script>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

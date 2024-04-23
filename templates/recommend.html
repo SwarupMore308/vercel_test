@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <!-- Custom CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboardstyle.css') }}"
+    />
+    <style>
+      /* dashboardstyle.css */
+
+      /* Styling for the greeting */
+      .greeting {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        margin-bottom: 15px;
+      }
+
+      .greeting span {
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .username {
+        margin-left: 10px;
+        color: #007bff; /* Blue color for the username */
+      }
+
+      .text-white {
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <!-- Display Hello, <username> if username is available in session -->
+              {% if 'email' in session %}
+              <li class="nav-item">
+                <span class="nav-link">
+                  <div class="greeting">
+                    <span>Hello,</span>
+                    <span class="username">{{ username }}</span>
+                  </div>
+                </span>
+              </li>
+              {% endif %}
+
+              <!-- Rest of the sidebar menu -->
+              <li class="nav-item">
+                <a class="nav-link" href="{{ 'dashboard' }}"> Home </a>
+              </li>
+              <!-- Rest of the sidebar menu -->
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('audiobook') }}">
+                  Upload Book
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  href="{{ url_for('recommendation') }}"
+                >
+                  Book Recommendations
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('history') }}">
+                  History
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}"> Logout </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h1 class="h2">BOOK RECOMMENDATION</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <!--                            <button class="btn btn-sm btn-outline-secondary">Share</button>-->
+                <!--                            <button class="btn btn-sm btn-outline-secondary">Export</button>-->
+              </div>
+            </div>
+          </div>
+
+          <!-- Content Here -->
+
+          <!-- Content Here -->
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h1 class="text-black" style="font-size: 50px">
+                  Recommend Books
+                </h1>
+                <form action="/recommend_books" method="post">
+                  <input
+                    name="user_input"
+                    type="text"
+                    class="form-control"
+                  /><br />
+                  <input type="submit" class="btn btn-lg btn-warning" />
+                </form>
+
+                {% if error_message %}
+                <div
+                  class="alert alert-danger"
+                  role="alert"
+                  style="margin-top: 20px"
+                >
+                  {{ error_message }}
+                </div>
+                {% endif %}
+              </div>
+
+              {% if data %} {% for i in data %}
+              <div class="col-md-3" style="margin-top: 50px">
+                <div class="card">
+                  <div class="card-body">
+                    <img class="card-img-top" src="{{i[2]}}" />
+                    <p class="text-black">{{i[0]}}</p>
+                    <h4 class="text-black">{{i[1]}}</h4>
+                  </div>
+                </div>
+              </div>
+              {% endfor %} {% endif %}
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

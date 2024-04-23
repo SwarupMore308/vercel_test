@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>BOOKVERSE</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <!-- style css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <!-- fevicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/fevicon.png') }}" type="image/gif" />
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.mCustomScrollbar.min.css') }}">
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+</head>
+<!-- body -->
+<body class="main-layout">
+<!-- loader  -->
+<div class="loader_bg">
+    <div class="loader"><img src="{{ url_for('static', filename='images/loading.gif') }}" alt="#" /></div>
+</div>
+<!-- end loader -->
+<!-- header -->
+<header>
+    <!-- header inner -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
+                    <div class="full">
+                        <div class="center-desk">
+                            <div class="logo"> <a href="{{ url_for('hello_world') }}"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="#" style="height: 50px;width: 50px;">BOOKVERSE</a> </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                    <div class="menu-area">
+                        <div class="limit-box">
+                            <nav class="main-menu">
+                                <ul class="menu-area-main">
+                                    <li> <a href="{{ url_for('hello_world') }}">Home</a> </li>
+                                    <li class="active"> <a href="{{ url_for('about') }}">About us</a> </li>
+                                    <!-- <li><a href="books.html">Upload Books</a></li>
+                                    <li><a href="library.html">Recommendations</a></li> -->
+                                    <li><a href="{{ url_for('contact') }}">Contact us</a></li>
+                                    <li><a href="{{ url_for('admin') }}">Admin</a></li>
+                                    <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+                                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end header inner -->
+</header>
+<!-- end header -->
+<!-- about -->
+<div class="about-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="abouttitle">
+                    <h2>About Us</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
+                <div class="aboutheading">
+                    <span>Welcome to BOOKVERSE!<br>we're passionate about making knowledge accessible to everyone, everywhere</span>
+                </div>
+            </div>
+        </div>
+        <div class="row border">
+            <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
+                <div class="about-box">
+                    <p> we believe that language should never be a barrier to knowledge.
+                        That's why we're dedicated to revolutionizing the way people interact with literature.
+                        Our mission is simple yet profound: to empower readers around the globe
+                        by providing seamless translation services and immersive audio experiences.But we don't stop there. We understand that the true
+                        magic of storytelling lies in its delivery. Capturing the essence of the original work and delivering it straight to your ears.</p>
+                    <a href="#">Read More</a>
+                </div>
+            </div>
+            <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+                <div class="about-box">
+                    <figure><img src="{{ url_for('static', filename='images/about.png') }}" alt="img" /></figure>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- end about -->
+<!-- footer -->
+<footer>
+    <div class="footer">
+        <div class="container">
+            <div class="row pdn-top-30">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                    <div class="Follow">
+                        <h3>Follow Us</h3>
+                    </div>
+                    <ul class="location_icon">
+                        <li> <a href="#"><img src="{{ url_for('static', filename='icon/facebook.png') }}"></a></li>
+                        <li> <a href="#"><img src="{{ url_for('static', filename='icon/Twitter.png') }}"></a></li>
+                        <li> <a href="#"><img src="{{ url_for('static', filename='icon/linkedin.png') }}"></a></li>
+                        <li> <a href="#"><img src="{{ url_for('static', filename='icon/instagram.png') }}"></a></li>
+                    </ul>
+                </div>
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+                    <div class="Follow">
+                        <h3>Newsletter</h3>
+                    </div>
+                    <input class="Newsletter" placeholder="Enter your email" type="Enter your email">
+                    <button class="Subscribe">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</footer>
+<!-- end footer -->
+<!-- Javascript files-->
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-3.0.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plugin.js') }}"></script>
+<!-- sidebar -->
+<script src="{{ url_for('static', filename='js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+</body>
+</html>

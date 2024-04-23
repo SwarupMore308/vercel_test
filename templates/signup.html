@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!-- Coding by CodingLab | www.codinglabweb.com-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/signupstyle.css') }}"
+    />
+  </head>
+  <body>
+    <div class="wrapper">
+      <h2>Registration</h2>
+      <form action="{{ url_for('signup') }}" method="post">
+        <div class="input-box">
+          <input
+            type="text"
+            name="username"
+            placeholder="Enter your name"
+            required
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="text"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="password"
+            name="password"
+            placeholder="Create password"
+            required
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="password"
+            placeholder="Confirm password"
+            required
+            id="password"
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="text"
+            name="phone"
+            placeholder="Enter your mobile number"
+            required
+          />
+        </div>
+        <div class="input-box button">
+          <input type="button" value="Send OTP" onclick="sendOTP()" />
+        </div>
+        <div id="otp-sent-status"></div>
+        <div class="input-box">
+          <input type="text" name="otp" placeholder="Enter OTP" required />
+        </div>
+        <div class="input-box button">
+          <input type="button" value="Verify OTP" onclick="verifyOTP()" />
+        </div>
+        <div id="otp-status"></div>
+
+        <div class="policy">
+          <input type="checkbox" />
+          <h3>I accept all terms & condition</h3>
+        </div>
+        <div class="input-box button">
+          <input type="submit" value="Register Now" />
+        </div>
+        <div class="text">
+          <h3>
+            Already have an account?
+            <a href="{{ url_for('login') }}">Login now</a>
+          </h3>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      // JavaScript for sending OTP
+      function sendOTP() {
+        var phone = document.getElementsByName("phone")[0].value;
+        fetch("/send-otp", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `phone=${phone}`,
+        })
+          .then((response) => response.text())
+          .then((data) => document.getElementById("otp-sent-status").innerText = "OTP Sent")
+          .catch((error) => console.error(error));
+      }
+
+      // JavaScript for verifying OTP
+      function verifyOTP() {
+        var otp = document.getElementsByName("otp")[0].value;
+        fetch("/verify-otp", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `otp=${otp}`,
+        })
+          .then((response) => response.text())
+          .then((data) => {
+            document.getElementById("otp-status").innerText = data;
+          })
+          .catch((error) => console.error(error));
+      }
+    </script>
+  </body>
+</html>

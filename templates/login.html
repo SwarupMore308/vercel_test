@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/loginstyle.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <div class="title"><span>Login</span></div>
+        <form action="{{ url_for('login') }}" method="post">
+          <div class="row">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="Email" name="email" required />
+          </div>
+          <div class="row">
+            <i class="fas fa-lock"></i>
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              required
+            />
+          </div>
+
+          <div class="input-box row">
+            <i class="fa-regular fa-phone"></i>
+            <input
+              type="text"
+              name="phone"
+              placeholder="Enter your mobile number"
+              required
+            />
+          </div>
+          <div class="input-box button">
+            <input type="button" value="Send OTP" onclick="sendOTP()" />
+          </div>
+          <div id="otp-sent-status"></div>
+          <div class="input-box row" style="margin-top: 5px">
+            <i class="fa-solid fa-key"></i>
+            <input type="text" name="otp" placeholder="Enter OTP" required />
+          </div>
+          <div class="input-box button" style="margin-bottom:10px">
+            <input type="button" value="Verify OTP" onclick="verifyOTP()" />
+          </div>
+          <div id="otp-status"></div>
+
+<!--          <div class="pass"><a href="#">Forgot password?</a></div>-->
+          <div class="row button">
+            <input type="submit" value="Login" />
+          </div>
+          <div class="signup-link">
+            Not a member? <a href="{{ url_for('signup') }}">Signup now</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // JavaScript for sending OTP
+      function sendOTP() {
+        var phone = document.getElementsByName("phone")[0].value;
+        fetch("/send-otp", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `phone=${phone}`,
+        })
+          .then((response) => response.text())
+          .then((data) => document.getElementById("otp-sent-status").innerText = "OTP Sent")
+          .catch((error) => console.error(error));
+      }
+
+      // JavaScript for verifying OTP
+      function verifyOTP() {
+        var otp = document.getElementsByName("otp")[0].value;
+        fetch("/verify-otp", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `otp=${otp}`,
+        })
+          .then((response) => response.text())
+          .then((data) => {
+            document.getElementById("otp-status").innerText = data;
+          })
+          .catch((error) => console.error(error));
+      }
+    </script>
+  </body>
+</html>
